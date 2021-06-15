@@ -65,8 +65,27 @@ class App extends Component {
         argent: this.state.argent - prix,
       })
 
+      //! Si mon panier est égale a 0
+      if (this.state.panier.length == 0) {
+
+        articlesState.forEach((e, i) => {
+          if (e.nom == nom) {
+            e.stock = e.stock - 1
+          }
+        })
+
+        this.setState(
+          {
+            panier: [{ nom: nom, quantite: 1, imgUrl: imgUrl }],
+            articles: articlesState
+          })
+      }
+
       //! Si mon panier est plus grand que zéro
-      if (this.state.panier.length > 0) {
+      else if (this.state.panier.length > 0) {
+
+        // * Probleme : le if et le else sont toujours appelé 
+        // * alors que c'est le if et si il n'y a rien le else
         for (let index = 0; index < panier.length; index++) {
           if (panier[index].nom == nom) {
             // * si je clique sur un item que j'ai déja
@@ -87,41 +106,33 @@ class App extends Component {
           }
 
 
-          else {
-            newPanier.push({
-              nom: nom,
-              quantite: 1,
-              imgUrl: imgUrl
-            })
-
-            articlesState.forEach(e => {
-              if (e.nom == nom) {
-                e.stock = e.stock - 1
-              }
-            })
-            panier = newPanier
-
-            this.setState({ panier: newPanier, articles: articlesState })
-          }
         }
-      }
 
+        /* -------------------------------------------------------------------------- */
+        // * faire un tableau qui va stocker juste les nom d'item dans mon panier
+        let panierArticlesFind
+        panierArticlesFind = []
 
-      //! Si mon panier est égale a 0
-      else if (this.state.panier.length == 0) {
+        panier.forEach(e => {
+          panierArticlesFind.push(e.nom)
+        });
 
-        articlesState.forEach((e, i) => {
-          if (e.nom == nom) {
-            e.stock = e.stock - 1
-          }
-        })
-
-        this.setState(
-          {
-            panier: [{ nom: nom, quantite: 1, imgUrl: imgUrl }],
-            articles: articlesState
+        if (panierArticlesFind.every( e => e != nom) == true) {
+          newPanier.push({
+            nom: nom,
+            quantite: 1,
+            imgUrl: imgUrl
           })
-        this.panierMap()
+
+          articlesState.forEach(e => {
+            if (e.nom == nom) {
+              e.stock = e.stock - 1
+            }
+          })
+          panier = newPanier
+
+          this.setState({ panier: newPanier, articles: articlesState })
+        }
       }
     }
   }
@@ -152,8 +163,8 @@ class App extends Component {
   /* -------------------------------------------------------------------------- */
 
   render () {
-    {console.log(this.state)}
-    
+    { console.log(this.state) }
+
     return (
       <div>
         <h1>Eshop</h1>
