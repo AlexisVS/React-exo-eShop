@@ -1,0 +1,66 @@
+body
+    min-height: 100vh
+    background-color: #4b4b4b
+    color: #e2e2e2
+    font-family: sans-serif
+    margin: 0
+    padding: 0
+
+h1
+    text-align: center
+    padding-top: 2rem
+    font-size: 3rem
+
+.monArgent
+    text-align: center
+.app
+    display: flex
+    align-items: start
+    justify-content: center
+
+.articles
+    width: 50vw
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    padding-bottom: 4rem
+    h2
+        text-align: center
+
+.panier
+    width: 50vw
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    h2
+        text-align: center
+
+.article:nth-child(odd)
+    margin: 2rem 0
+
+.article
+    width: 60%
+    background-color: #fff
+    display: flex
+    flex-direction: column
+    color: #6d6d6d
+    h3
+        text-align: center
+        margin: 10px 0
+    button
+        height: max-content
+        width: max-content
+    .article-body
+        display: flex
+        padding-bottom: 2rem 
+        .article-body-left
+            display: flex
+            justify-content: center
+            width: 55%
+            img
+                max-width: 150px
+                max-height: 200px
+        .article-body-right
+            width: 45%
