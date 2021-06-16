@@ -108,7 +108,6 @@ class App extends Component {
 
         }
 
-        /* -------------------------------------------------------------------------- */
         // * faire un tableau qui va stocker juste les nom d'item dans mon panier
         let panierArticlesFind
         panierArticlesFind = []
@@ -117,7 +116,7 @@ class App extends Component {
           panierArticlesFind.push(e.nom)
         });
 
-        if (panierArticlesFind.every( e => e != nom) == true) {
+        if (panierArticlesFind.every(e => e != nom) == true) {
           newPanier.push({
             nom: nom,
             quantite: 1,
@@ -137,6 +136,42 @@ class App extends Component {
     }
   }
 
+  rendre = (e) => {
+    let nom, quantite, newState;
+    nom = e.target.parentNode.children[0].lastChild.data
+    quantite = e.target.parentNode.children[1].lastChild.data
+    newState = this.state
+    let { argent, panier, articles } = newState
+    console.log(panier);
+    switch (nom) {
+      case "Chocolat":
+        newState.argent += 1
+        newState.articles[0].stock += 1
+        break;
+      case "Tic Tac":
+        newState.argent += 2
+        newState.articles[1].stock += 1
+        break;
+      case "Cloppe":
+        newState.argent += 10
+        newState.articles[2].stock += 1
+        break;
+    }
+
+    newState.panier.forEach(e => {
+      if (e.nom == nom) {
+        e.quantite -= 1
+      }
+    })
+    console.log(newState.articles[0]);
+    this.setState({ argent: newState.argent })
+
+
+    // ? Je doit retirer de 1 la quantite de l'element dans mon paniner
+    // ? et la rajouter dans le bonne objet dans les articles
+
+
+  }
 
   articlesMap = () => this.state.articles.map((el, index) => (
     <Articles
@@ -146,23 +181,27 @@ class App extends Component {
       prix={el.prix}
       stock={el.stock}
       imgUrl={el.imgUrl}
+      monArgent={this.state.argent}
     />
   ))
 
-  panierMap = () => this.state.panier.map((el, index) =>
-    <Panier
-      key={index}
-      nom={el.nom}
-      imgUrl={el.imgUrl}
-      quantite={el.quantite}
-    />
+  panierMap = () => this.state.panier.map((el, index) => {
+    if (el.quantite >= 1) {
+      return (<Panier
+        key={index}
+        nom={el.nom}
+        imgUrl={el.imgUrl}
+        quantite={el.quantite}
+        rendre={(e) => this.rendre(e)}
+      />)
+    }
+  }
+
   )
 
-  /* -------------------------------- LifeCycle ------------------------------- */
-
-  /* -------------------------------------------------------------------------- */
 
   render () {
+
     { console.log(this.state) }
 
     return (
